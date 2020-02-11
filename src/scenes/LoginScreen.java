@@ -46,6 +46,27 @@ public class LoginScreen {
             }
         });
         
+        Button readButton = new Button();
+        readButton.setText("Read");
+        readButton.setOnAction(e ->{
+            UserController userController = new UserController();
+            
+        });
+        
+        Button updateButton = new Button();
+        updateButton.setText("Update");
+        updateButton.setOnAction(e ->{
+            UserController userController = new UserController();
+            
+        });
+        
+        Button deleteButton = new Button();
+        deleteButton.setText("Delete");
+        deleteButton.setOnAction(e ->{
+            UserController userController = new UserController();
+            
+        });
+        
         HBox topBox = new HBox();
         topBox.getChildren().addAll(userLabel, usernameTextField);
         
