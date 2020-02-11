@@ -5,6 +5,8 @@
  */
 package controllers;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -37,8 +39,30 @@ public class UserController {
     }
     
     // CRUD - Read user
-    public void readUser(){
+    public void readUser() throws IOException{
+        FileReader fileReader = new FileReader("./data/users.csv");
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        
+        String fileContent; 
+        while((fileContent = bufferedReader.readLine()) != null) { 
+            String[] fileData = fileContent.split(","); 
+            user = new User(fileData[0], fileData[1]);
+            users.add(user);
+        }
+            
+        fileReader.close();
+    }
     
+    // CRUD - Read user
+    public boolean readUser(String username, String password) throws IOException{
+        readUser();
+        for(int i = 0; i < users.size(); i++) {
+            // Always use equals() when comparing strings and objects in JAVA!
+            if( users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password) ){
+                return true;
+            }
+        }
+        return false;
     }
     
     // CRUD - Update user

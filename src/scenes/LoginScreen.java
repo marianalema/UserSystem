@@ -50,7 +50,12 @@ public class LoginScreen {
         readButton.setText("Read");
         readButton.setOnAction(e ->{
             UserController userController = new UserController();
-            
+            try {
+                if(userController.readUser(usernameTextField.getText() , passwordTextField.getText()))
+                    System.out.println("Welcome user " + usernameTextField.getText());
+            } catch (IOException ex) {
+                Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         
         Button updateButton = new Button();
@@ -74,7 +79,7 @@ public class LoginScreen {
         centerBox.getChildren().addAll(passwordLabel, passwordTextField);
         
         HBox bottomBox = new HBox();
-        bottomBox.getChildren().addAll(confirmButton);
+        bottomBox.getChildren().addAll(confirmButton, readButton);
         
         BorderPane pane = new BorderPane();
         pane.setTop(topBox);
