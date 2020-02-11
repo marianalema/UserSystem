@@ -34,6 +34,7 @@ public class LoginScreen {
         Label passwordLabel = new Label("Password");
         TextField passwordTextField = new TextField();
         
+        // Confirm button
         Button confirmButton = new Button();
         confirmButton.setText("Confirm");
         confirmButton.setOnAction(e ->{
@@ -46,6 +47,7 @@ public class LoginScreen {
             }
         });
         
+        // Read button
         Button readButton = new Button();
         readButton.setText("Read");
         readButton.setOnAction(e ->{
@@ -58,6 +60,7 @@ public class LoginScreen {
             }
         });
         
+        // Update button
         Button updateButton = new Button();
         updateButton.setText("Update");
         updateButton.setOnAction(e ->{
@@ -65,6 +68,7 @@ public class LoginScreen {
             
         });
         
+        // Delete button
         Button deleteButton = new Button();
         deleteButton.setText("Delete");
         deleteButton.setOnAction(e ->{
@@ -79,7 +83,7 @@ public class LoginScreen {
         centerBox.getChildren().addAll(passwordLabel, passwordTextField);
         
         HBox bottomBox = new HBox();
-        bottomBox.getChildren().addAll(confirmButton, readButton);
+        bottomBox.getChildren().addAll(confirmButton, readButton, updateButton, deleteButton);
         
         BorderPane pane = new BorderPane();
         pane.setTop(topBox);
