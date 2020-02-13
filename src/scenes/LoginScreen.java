@@ -5,7 +5,6 @@
  */
 package scenes;
 
-
 import controllers.UserController;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -28,19 +27,21 @@ public class LoginScreen {
     
     // Constructor of the class LoginScreen
     public LoginScreen(){
+        // Labels and text fields
         Label userLabel = new Label("Username");
         TextField usernameTextField = new TextField();
+        TextField newUsernameTextField = new TextField();
         
         Label passwordLabel = new Label("Password");
         TextField passwordTextField = new TextField();
+        TextField newPasswordTextField = new TextField();
         
-        // Confirm button
-        Button confirmButton = new Button();
-        confirmButton.setText("Confirm");
-        confirmButton.setOnAction(e ->{
-            UserController userController = new UserController();
-            System.out.println(usernameTextField.getText() + passwordTextField.getText());
+        // Create button
+        Button createButton = new Button();
+        createButton.setText("Create");
+        createButton.setOnAction(e ->{
             try {
+                UserController userController = new UserController();
                 userController.createUser(usernameTextField.getText() , passwordTextField.getText());
             } catch (IOException ex) {
                 Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
@@ -51,10 +52,9 @@ public class LoginScreen {
         Button readButton = new Button();
         readButton.setText("Read");
         readButton.setOnAction(e ->{
-            UserController userController = new UserController();
             try {
-                if(userController.readUser(usernameTextField.getText() , passwordTextField.getText()))
-                    System.out.println("Welcome user " + usernameTextField.getText());
+                UserController userController = new UserController();
+                userController.readUser(usernameTextField.getText() , passwordTextField.getText());
             } catch (IOException ex) {
                 Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -64,33 +64,42 @@ public class LoginScreen {
         Button updateButton = new Button();
         updateButton.setText("Update");
         updateButton.setOnAction(e ->{
-            UserController userController = new UserController();
-            
+            try {
+                UserController userController = new UserController();
+                userController.updateUser(usernameTextField.getText() , passwordTextField.getText(), newUsernameTextField.getText() , newPasswordTextField.getText());
+            } catch (IOException ex) {
+                Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         
         // Delete button
         Button deleteButton = new Button();
         deleteButton.setText("Delete");
         deleteButton.setOnAction(e ->{
-            UserController userController = new UserController();
-            
+            try {
+                UserController userController = new UserController();
+                userController.deleteUser(usernameTextField.getText() , passwordTextField.getText());
+            } catch (IOException ex) {
+                Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         
+        // Setting boxes and panes
         HBox topBox = new HBox();
-        topBox.getChildren().addAll(userLabel, usernameTextField);
+        topBox.getChildren().addAll(userLabel, usernameTextField, newUsernameTextField);
         
         HBox centerBox = new HBox();
-        centerBox.getChildren().addAll(passwordLabel, passwordTextField);
+        centerBox.getChildren().addAll(passwordLabel, passwordTextField, newPasswordTextField);
         
         HBox bottomBox = new HBox();
-        bottomBox.getChildren().addAll(confirmButton, readButton, updateButton, deleteButton);
+        bottomBox.getChildren().addAll(createButton, readButton, updateButton, deleteButton);
         
         BorderPane pane = new BorderPane();
         pane.setTop(topBox);
         pane.setCenter(centerBox);
         pane.setBottom(bottomBox);
         
-        scene = new Scene(pane,300,300);
+        scene = new Scene(pane,500,300);
     }
     
     // Method to return the constructed LoginScreen

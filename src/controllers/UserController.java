@@ -20,31 +20,13 @@ public class UserController {
     private User user;
     private LinkedList<User> users;
     
-    public UserController(){
-        users = new LinkedList<User>();
-    }
-    
-    // CRUD - Create user
-    public void createUser(String username, String password) throws IOException{
-        FileWriter fileWriter = new FileWriter("./data/users.csv", true); 
-        
-        user = new User(username, password);
-        String fileContent = user.getUsername() + "," + user.getPassword();
-        
-        fileWriter.write(fileContent);
-        fileWriter.write(System.lineSeparator());
-        fileWriter.close();
-        
-        System.out.println("User created");
-    }
-    
-    // CRUD - Read user
-    public void readUser() throws IOException{
+    // Contructor - Load all users in the RAM memory
+    public UserController() throws IOException{
         FileReader fileReader = new FileReader("./data/users.csv");
         BufferedReader bufferedReader = new BufferedReader(fileReader);
-        
-        String fileContent; 
-        while((fileContent = bufferedReader.readLine()) != null) { 
+        String fileContent;
+        users = new LinkedList<User>();
+        while((fileContent = bufferedReader.readLine()) != null) {
             String[] fileData = fileContent.split(","); 
             user = new User(fileData[0], fileData[1]);
             users.add(user);
@@ -53,25 +35,60 @@ public class UserController {
         fileReader.close();
     }
     
-    // CRUD - Read user
-    public boolean readUser(String username, String password) throws IOException{
-        readUser();
+    // CRUD - Create user
+    public void createUser(String username, String password) throws IOException{
+        FileWriter fileWriter = new FileWriter("./data/users.csv", true); 
+        user = new User(username, password);
+        fileWriter.write(user.getUsername() + "," + user.getPassword());
+        fileWriter.write(System.lineSeparator());
+        fileWriter.close();
+        
+        System.out.println("User " + username + " created.");
+    }
+
+    
+    // CRUD - Read user to check if it exists
+    public void readUser(String username, String password) throws IOException{
         for(int i = 0; i < users.size(); i++) {
-            // Always use equals() when comparing strings and objects in JAVA!
             if( users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password) ){
-                return true;
+                System.out.println("User " + username + " read.");
             }
         }
-        return false;
     }
     
     // CRUD - Update user
-    public void updateUser(){
-    
+    public void updateUser(String username, String password, String newUsername, String newPassword) throws IOException{
+        FileWriter fileWriter = new FileWriter("./data/users.csv");
+        fileWriter.flush();
+        for(int i = 0; i < users.size(); i++) {
+            if( users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password) ){
+                users.get(i).setUsername(newUsername);
+                users.get(i).setPassword(newPassword);
+            }
+            fileWriter.write(users.get(i).getUsername() + "," + users.get(i).getPassword());
+            fileWriter.write(System.lineSeparator());
+        }
+        fileWriter.close();
+        
+        System.out.println("User " + username + " updated.");
     }
     
     // CRUD - Delete user
-    public void deleteUser(){
-    
+    public void deleteUser(String username, String password) throws IOException{
+        FileWriter fileWriter = new FileWriter("./data/users.csv");
+        fileWriter.flush();
+        for(int i = 0; i < users.size(); i++) {
+            if( users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password) ){
+                users.set(i, null);
+            }else{
+                String fileContent = users.get(i).getUsername() + "," + users.get(i).getPassword();
+        
+                fileWriter.write(fileContent);
+                fileWriter.write(System.lineSeparator());
+            }
+        }
+        fileWriter.close();
+
+        System.out.println("User " + username + " deleted.");
     }
 }
