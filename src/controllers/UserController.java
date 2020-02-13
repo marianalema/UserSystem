@@ -39,6 +39,7 @@ public class UserController {
     public void createUser(String username, String password) throws IOException{
         FileWriter fileWriter = new FileWriter("./data/users.csv", true); 
         user = new User(username, password);
+        users.add(user);
         fileWriter.write(user.getUsername() + "," + user.getPassword());
         fileWriter.write(System.lineSeparator());
         fileWriter.close();
