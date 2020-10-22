@@ -7,6 +7,7 @@
 package controller;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -55,5 +56,31 @@ public class UserController {
         }
         System.out.println("Access Denied");
         return false;
+    }
+
+    public void create(String username, String password) throws IOException{
+        FileWriter file = new FileWriter("./data/users.csv", true);
+        User user = new User(username, password);
+        users.add(user);
+        file.write(username + "," + password);
+        file.write(System.lineSeparator());
+
+        file.close();
+    }
+
+    public void update(String username, String newUsername, String password, String newPassword) throws IOException{
+        FileWriter file = new FileWriter("./data/users.csv", false);
+        file.flush();
+        
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password)) {
+                users.get(i).setUsername(newUsername);
+                users.get(i).setPassword(newPassword);
+            }
+            file.write(users.get(i).getUsername() + "," + users.get(i).getPassword());
+            file.write(System.lineSeparator());
+        }
+        
+        file.close();
     }
 }

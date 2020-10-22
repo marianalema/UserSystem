@@ -28,6 +28,7 @@ public class UserSystem extends Application{
         stage.setTitle("User System");
         LoginScreen loginScreen = new LoginScreen(stage);
         stage.setScene(loginScreen.getScene());
+        stage.setResizable(false);
         stage.setHeight(200);
         stage.setWidth(400);
         stage.show();
