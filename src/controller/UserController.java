@@ -83,4 +83,20 @@ public class UserController {
         
         file.close();
     }
+    
+    public void delete(String username, String password) throws IOException{
+        FileWriter file = new FileWriter("./data/users.csv", false);
+        //file.flush();
+        
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password)) {
+                users.set(i, null);
+            }else{
+                file.write(users.get(i).getUsername() + "," + users.get(i).getPassword());
+                file.write(System.lineSeparator());
+            }
+        }
+        
+        file.close();
+    }
 }

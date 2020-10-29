@@ -7,6 +7,9 @@
 package view;
 
 import controller.UserController;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -28,7 +31,7 @@ public class LoginScreen {
     private HBox usernameBox, passwordBox, buttonBox;
     private BorderPane borderPane;
     private TextField usernameField, passwordField;
-    private Button signinBtn, signupBtn, updateBtn;
+    private Button signinBtn, signupBtn, updateBtn, deleteBtn;
     private UserController userController;
     
     public LoginScreen(Stage stage){
@@ -69,11 +72,20 @@ public class LoginScreen {
         updateBtn.setOnAction(e->{
             UpdateScreen updateScreen = new UpdateScreen(stage);
             stage.setScene(updateScreen.getScene());
-            System.out.println("test 1");
+        });
+        
+        deleteBtn = new Button("Delete Account");
+        deleteBtn.setOnAction(e->{
+            try {
+                userController.read();
+                userController.delete(usernameField.getText(), passwordField.getText());
+            } catch (IOException ex) {
+                Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
 
         buttonBox = new HBox(10);
-        buttonBox.getChildren().addAll(signinBtn, signupBtn, updateBtn);
+        buttonBox.getChildren().addAll(signinBtn, signupBtn, updateBtn, deleteBtn);
         buttonBox.setAlignment(Pos.CENTER);
         
         centerBox = new VBox(10);
